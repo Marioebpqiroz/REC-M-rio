@@ -8,7 +8,31 @@ const api = new Api();
 
 export default function Lista() {
 
+    const [pessoas, setPessoas] = useState([]);
+    const [nome, setNome] = useState('');
+
+    async function listar() {  
+        let r = await api.listar(pessoas);
+        setPessoas(r);
+    }
+
     
+    async function inserirPessoas() {
+        let r = await api.inserir(nome);
+        console.log(r);
+     
+        limparCampo();
+        listar();
+    }
+
+    function limparCampo() {
+        setNome('');
+    }
+ 
+    
+    useEffect(() => {
+        listar()
+    }, [])
 return (
     <Container>
         <div className="tudo">
@@ -42,7 +66,7 @@ return (
                         {pessoas.map((x) =>
                             <tr>
                                 <td>{x.id}</td>
-                                <td>{x.id_nome}</td>
+                                <td>{x.nm_nome}</td>
                             </tr>  
                         )}
                     </tbody>                                      
